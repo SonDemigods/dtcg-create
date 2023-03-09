@@ -1,9 +1,9 @@
 export default [{
-  code: 0,
+  code: 1,
   name: '数码蛋'
 },
 {
-  code: 1,
+  code: 2,
   name: '数码宝贝'
 },
 {
