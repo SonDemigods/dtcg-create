@@ -1,8 +1,17 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// 导入类型
+import type { formDataInterface } from '@/interface/formData'
+
+const props = defineProps({
+  config: Object
+})
+</script>
 <template>
   <div class="title">卡片预览</div>
   <div class="box">
-    <div class="card"></div>
+    <div class="card">
+      {{ props.config }}
+    </div>
   </div>
 </template>
 <style lang="less" scoped>

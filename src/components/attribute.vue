@@ -1,10 +1,10 @@
 <script setup lang="ts">
 // 导入vue功能
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 // 导入类型
 import type { Ref } from 'vue'
-import type {evolutionInfoInterface, formDataInterface} from '@/interface/formData'
+import type { evolutionInfoInterface, formDataInterface } from '@/interface/formData'
 
 // 导入卡片类型
 import cardTypeData from '@/config/cardType'
@@ -21,11 +21,8 @@ import shapeData from '@/config/shape'
 // 导入属性
 import propertyData from '@/config/property'
 
-// 进化信息
-// const evolutionInfo = ref([])
-
 // 表单数据
-const formData:Ref<formDataInterface> = ref({
+const formData: Ref<formDataInterface> = ref({
   // 卡种
   cardType: 1,
   // 名称
@@ -64,11 +61,13 @@ const formData:Ref<formDataInterface> = ref({
   // 进化信息数量
   evolutionSize: 1,
   // 进化信息
-  evolutionInfo: [{
-    color: 1,
-    level: 2,
-    cost: 0
-  }],
+  evolutionInfo: [
+    {
+      color: 1,
+      level: 2,
+      cost: 0
+    }
+  ],
 
   // 技能描述
   description: '',
@@ -86,10 +85,10 @@ const formData:Ref<formDataInterface> = ref({
  * @date 2023-03-10 14:31:48
  * @version V1.0.0
  */
- const changeEvolutionSize = (value:number) => {
+const changeEvolutionSize = (value: number) => {
   // 结果数组
-  let res:Array<evolutionInfoInterface> = []
-  const {evolutionInfo = []} = formData.value;
+  let res: Array<evolutionInfoInterface> = []
+  const { evolutionInfo = [] } = formData.value
 
   if (value < evolutionInfo.length) {
     res = evolutionInfo.slice(0, value)
@@ -106,6 +105,17 @@ const formData:Ref<formDataInterface> = ref({
   formData.value.evolutionInfo = res
 }
 
+// 组件事件
+const emit = defineEmits(['on-change'])
+
+// 监听表单数据变化
+watch(
+  formData,
+  (newValue, oldValue) => {
+    emit('on-change', newValue)
+  },
+  { deep: true }
+)
 </script>
 <template>
   <div class="title">配置选项</div>
@@ -124,12 +134,16 @@ const formData:Ref<formDataInterface> = ref({
       </FormItem>
       <FormItem label="等级">
         <Select v-model="formData.level" style="width: 100%">
-          <Option v-for="item in levelData" :value="item.code" :key="item.code">{{ item.name }}</Option>
+          <Option v-for="item in levelData" :value="item.code" :key="item.code">{{
+            item.name
+          }}</Option>
         </Select>
       </FormItem>
       <FormItem label="颜色">
         <Select v-model="formData.colors" multiple style="width: 100%">
-          <Option v-for="item in colorData" :value="item.code" :key="item.code">{{ item.name }}</Option>
+          <Option v-for="item in colorData" :value="item.code" :key="item.code">{{
+            item.name
+          }}</Option>
         </Select>
       </FormItem>
       <FormItem label="编号">
@@ -256,7 +270,9 @@ const formData:Ref<formDataInterface> = ref({
       <Divider orientation="left">特征</Divider>
       <FormItem label="形态">
         <Select v-model="formData.shape" style="width: 100%">
-          <Option v-for="item in shapeData" :value="item.code" :key="item.code">{{ item.name }}</Option>
+          <Option v-for="item in shapeData" :value="item.code" :key="item.code">{{
+            item.name
+          }}</Option>
         </Select>
       </FormItem>
       <FormItem label="属性">
