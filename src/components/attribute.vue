@@ -4,7 +4,11 @@ import { ref, watch } from 'vue'
 
 // 导入类型
 import type { Ref } from 'vue'
-import type { evolutionInfoInterface, formDataInterface } from '@/interface/formData'
+import type {
+  evolutionInfoInterface,
+  formDataInterface,
+  configInterface
+} from '@/interface/formData'
 
 // 导入卡片类型
 import cardTypeData from '@/config/cardType'
@@ -105,6 +109,50 @@ const changeEvolutionSize = (value: number) => {
   formData.value.evolutionInfo = res
 }
 
+/**
+ * @functionName updateFormLabel
+ * @param {Number} key 值
+ * @param {Array} config 可选项配置
+ * @return {String} 返回结果
+ * @description 根据key更新label显示内容
+ * @author 张航
+ * @date 2023-04-24 09:42:20
+ * @version V1.0.0
+ */
+const updateFormLabel = (key: number, config: Array<configInterface>) => {
+  let res = `${key}`
+  config.map(item => {
+    if (item.code === key) {
+      res = item.name
+    }
+  })
+  return res
+}
+
+/**
+ * @functionName updateColorLabelValue
+ * @param {Number} key 值
+ * @param {Array} config 可选项配置
+ * @return {Object} 返回结果
+ * @description 根据key更新label显示内容和value的值
+ * @author 张航
+ * @date 2023-04-24 10:34:38
+ * @version V1.0.0
+ */
+const updateColorLabelValue = (key: number, config: Array<configInterface>) => {
+  let res = {
+    label: '',
+    value: ''
+  }
+  config.map(item => {
+    if (item.code === key) {
+      res.label = item.name,
+      res.value = item.value || ''
+    }
+  })
+  return res
+}
+
 // 组件事件
 const emit = defineEmits(['on-change'])
 
@@ -112,7 +160,33 @@ const emit = defineEmits(['on-change'])
 watch(
   formData,
   (newValue, oldValue) => {
-    emit('on-change', newValue)
+    let res = {...newValue}
+    // 更新字段label
+    res.cardTypeLabel = updateFormLabel(newValue.cardType, cardTypeData)
+    res.levelLabel = updateFormLabel(newValue.level, levelData)
+    res.rarityLabel = updateFormLabel(newValue.rarity, rarityData)
+    res.shapeLabel = updateFormLabel(newValue.shape, shapeData)
+    res.propertyLabel = updateFormLabel(newValue.property, propertyData)
+    res.kindLabel = updateFormLabel(newValue.kind, kindData)
+
+    // 更新颜色
+    res.colorsLabel = []
+    res.colorsValue = []
+    res.colors.map((item, index) => {
+      const { label = '', value = '' } = updateColorLabelValue(item, colorData)
+      res.colorsLabel[index] = label
+      res.colorsValue[index] = value
+    })
+
+    // 更新进化信息
+    res.evolutionInfo.map(item => {
+      const { label = '', value = '' } = updateColorLabelValue(item.color, colorData)
+      item.colorLabel = label
+      item.colorValue = value
+      item.levelLabel = updateFormLabel(item.level, levelData)
+    })
+    
+    emit('on-change', res)
   },
   { deep: true }
 )
@@ -331,17 +405,21 @@ watch(
   overflow: auto;
   background: #ffffff;
 }
+
 .evolutionInfo {
   border-top: solid 1px #f2f2f2;
   border-left: solid 1px #f2f2f2;
+
   // border-radius: 4px;
   // overflow: hidden;
   .ivu-col {
     border-right: solid 1px #f2f2f2;
     border-bottom: solid 1px #f2f2f2;
   }
+
   .title-box {
     background: #f5f5f5;
+
     .item {
       text-align: center;
       font-weight: bold;
