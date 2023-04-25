@@ -1,7 +1,8 @@
 export interface evolutionInfoInterface {
   color: number,
   colorLabel?: string,
-  colorValue?: string,
+  colorBg?: string,
+  colorFg?: string,
   level: number,
   levelLabel?: string,
   cost: number
@@ -19,7 +20,8 @@ export interface formDataInterface {
   // 颜色信息
   colors: Array<number>,
   colorsLabel?: Array<string>,
-  colorsValue?: Array<string>,
+  colorsBg?: Array<string>,
+  colorsFg?: Array<string>,
   // 编号
   number: string,
   // 罕贵
@@ -58,14 +60,19 @@ export interface formDataInterface {
 
   // 技能描述
   description: string,
-  // 进化源显示
+  // 进化源效果显示
   originShow: boolean,
-  // 进化源
-  origin: string
+  // 进化源效果
+  origin: string,
+  // 安防效果显示
+  securityShow: boolean,
+  // 安防效果
+  security: string
 }
 
 export interface configInterface {
   code: number,
   name: string,
-  value?: string
+  bg?: string,
+  fg?: string
 }

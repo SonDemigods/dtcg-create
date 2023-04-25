@@ -66,10 +66,14 @@ const configData: Ref<formDataInterface> = ref({
 
   // 技能描述
   description: '',
-  // 进化源显示
-  originShow: true,
-  // 进化源
-  origin: ''
+  // 进化源效果显示
+  originShow: false,
+  // 进化源效果
+  origin: '',
+  // 安防效果显示
+  securityShow: false,
+  // 安防效果
+  security: ''
 })
 
 /**

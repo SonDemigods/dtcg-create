@@ -75,10 +75,14 @@ const formData: Ref<formDataInterface> = ref({
 
   // 技能描述
   description: '',
-  // 进化源显示
-  originShow: true,
-  // 进化源
-  origin: ''
+  // 进化源效果显示
+  originShow: false,
+  // 进化源效果
+  origin: '',
+  // 安防效果显示
+  securityShow: false,
+  // 安防效果
+  security: ''
 })
 
 /**
@@ -142,12 +146,14 @@ const updateFormLabel = (key: number, config: Array<configInterface>) => {
 const updateColorLabelValue = (key: number, config: Array<configInterface>) => {
   let res = {
     label: '',
-    value: ''
+    bg: '',
+    fg: ''
   }
   config.map(item => {
     if (item.code === key) {
       res.label = item.name,
-      res.value = item.value || ''
+      res.bg = item.bg || '',
+      res.fg = item.fg || ''
     }
   })
   return res
@@ -171,18 +177,21 @@ watch(
 
     // 更新颜色
     res.colorsLabel = []
-    res.colorsValue = []
+    res.colorsBg = []
+    res.colorsFg = []
     res.colors.map((item, index) => {
-      const { label = '', value = '' } = updateColorLabelValue(item, colorData)
+      const { label = '', bg = '', fg = '' } = updateColorLabelValue(item, colorData)
       res.colorsLabel[index] = label
-      res.colorsValue[index] = value
+      res.colorsBg[index] = bg
+      res.colorsFg[index] = fg
     })
 
     // 更新进化信息
     res.evolutionInfo.map(item => {
-      const { label = '', value = '' } = updateColorLabelValue(item.color, colorData)
+      const { label = '', bg = '', fg = '' } = updateColorLabelValue(item.color, colorData)
       item.colorLabel = label
-      item.colorValue = value
+      item.colorBg = bg
+      item.colorFg = fg
       item.levelLabel = updateFormLabel(item.level, levelData)
     })
     
@@ -208,9 +217,9 @@ watch(
       </FormItem>
       <FormItem label="等级">
         <Select v-model="formData.level" style="width: 100%">
-          <Option v-for="item in levelData" :value="item.code" :key="item.code">{{
-            item.name
-          }}</Option>
+          <Option v-for="item in levelData" :value="item.code" :key="item.code">
+          LV.{{ item.name }}
+          </Option>
         </Select>
       </FormItem>
       <FormItem label="颜色">
@@ -323,9 +332,9 @@ watch(
             </Col>
             <Col span="8">
               <Select v-model="evolution.level" style="width: 100%">
-                <Option v-for="item in levelData" :value="item.code" :key="item.code">{{
-                  item.name
-                }}</Option>
+                <Option v-for="item in levelData" :value="item.code" :key="item.code">
+                  LV.{{ item.name }}
+                </Option>
               </Select>
             </Col>
             <Col span="8">
@@ -372,12 +381,26 @@ watch(
       </FormItem>
 
       <Divider orientation="left">进化源</Divider>
-      <FormItem label="是否展示进化源">
+      <FormItem label="是否展示进化源效果">
         <Switch v-model="formData.originShow" />
       </FormItem>
-      <FormItem label="进化源">
+      <FormItem label="进化源效果">
         <Input
           v-model="formData.origin"
+          type="textarea"
+          :rows="4"
+          :maxlength="200"
+          show-word-limit
+        />
+      </FormItem>
+
+      <Divider orientation="left">安防</Divider>
+      <FormItem label="是否展示安防效果">
+        <Switch v-model="formData.securityShow" />
+      </FormItem>
+      <FormItem label="安防效果">
+        <Input
+          v-model="formData.security"
           type="textarea"
           :rows="4"
           :maxlength="200"
@@ -387,7 +410,7 @@ watch(
     </Form>
   </div>
 </template>
-<style lang="less">
+<style lang="less" scoped>
 .title {
   height: 40px;
   line-height: 40px;
