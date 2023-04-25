@@ -55,7 +55,7 @@ const config = toRef(props, 'config')
       <div class="card-bottom">
         <!-- 效果 -->
         <description :details="config.description" />
-        
+
         <!-- 信息 -->
         <div class="card-info">
           <div class="card-info-bg">
@@ -91,7 +91,7 @@ const config = toRef(props, 'config')
                   {{ config.rarityLabel }}
                 </div>
               </div>
-              <div class="kind">{{ config.kindLabel }}</div>
+              <div class="kind" v-if="config.kindShow">{{ config.kindLabel }}</div>
             </div>
           </div>
 
