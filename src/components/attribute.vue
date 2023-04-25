@@ -31,7 +31,9 @@ const formData: Ref<formDataInterface> = ref({
   cardType: 1,
   // 名称
   name: '数码宝贝',
-  nameFg: '#ffffff',
+  nameSecond: '#ffffff',
+  nameThird: '#ffffff',
+  nameFourth: '#000000',
   // 等级
   level: 2,
   // 颜色信息
@@ -40,7 +42,6 @@ const formData: Ref<formDataInterface> = ref({
   number: 'BT1-001',
   // 罕贵
   rarity: 1,
-  rarityFg: '#000000',
 
   // 形态
   shape: 1,
@@ -148,14 +149,18 @@ const updateFormLabel = (key: number, config: Array<configInterface>) => {
 const updateColorLabelValue = (key: number, config: Array<configInterface>) => {
   let res = {
     label: '',
-    bg: '',
-    fg: ''
+    first: '',
+    second: '',
+    third: '',
+    fourth: ''
   }
   config.map(item => {
     if (item.code === key) {
       res.label = item.name,
-      res.bg = item.bg || '',
-      res.fg = item.fg || ''
+      res.first = item.first || '',
+      res.second = item.second || '',
+      res.third = item.third || '',
+      res.fourth = item.fourth || ''
     }
   })
   return res
@@ -179,28 +184,36 @@ watch(
 
     // 更新颜色
     res.colorsLabel = []
-    res.colorsBg = []
-    res.colorsFg = []
-    res.nameFg = '#ffffff'
-    res.rarityFg = '#000000'
+    res.colorsFirst = []
+    res.colorsSecond = []
+    res.colorsThird = []
+    res.colorsFourth = []
+    res.nameSecond = '#ffffff'
+    res.nameThird = '#ffffff'
     res.colors.map((item, index) => {
-      const { label = '', bg = '', fg = '' } = updateColorLabelValue(item, colorData)
+      const { label = '', first = '', second = '', third = '', fourth = '' } = updateColorLabelValue(item, colorData)
       res.colorsLabel[index] = label
-      res.colorsBg[index] = bg
-      res.colorsFg[index] = fg
+      res.colorsFirst[index] = first
+      res.colorsSecond[index] = second
+      res.colorsThird[index] = third
+      res.colorsFourth[index] = fourth
+
       // 特殊名字颜色
-      if (item === 3 || item === 7) {
-        res.nameFg = fg
-        res.rarityFg = '#ffffff'
+      if (index === 0) {
+        res.nameSecond = second
+        res.nameThird = third
+        res.nameFourth = fourth
       }
     })
 
     // 更新进化信息
     res.evolutionInfo.map(item => {
-      const { label = '', bg = '', fg = '' } = updateColorLabelValue(item.color, colorData)
+      const { label = '', first = '', second = '', third = '', fourth ='' } = updateColorLabelValue(item.color, colorData)
       item.colorLabel = label
-      item.colorBg = bg
-      item.colorFg = fg
+      item.colorFirst = first
+      item.colorSecond = second
+      item.colorThird = third
+      item.colorFourth = fourth
       item.levelLabel = updateFormLabel(item.level, levelData)
     })
     

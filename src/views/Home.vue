@@ -22,7 +22,9 @@ const configData: Ref<formDataInterface> = ref({
   cardType: 1,
   // 名称
   name: '数码宝贝',
-  nameFg: '#ffffff',
+  nameSecond: '#ffffff',
+  nameThird: '#ffffff',
+  nameFourth: '#000000',
   // 等级
   level: 2,
   // 颜色信息
@@ -31,7 +33,6 @@ const configData: Ref<formDataInterface> = ref({
   number: 'BT1-001',
   // 罕贵
   rarity: 1,
-  rarityFg: '#000000',
 
   // 形态
   shape: 1,

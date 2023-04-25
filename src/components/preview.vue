@@ -13,7 +13,6 @@ import type { formDataInterface } from '@/interface/formData'
 // 获取配置信息
 const props = defineProps(['config'])
 const config = toRef(props, 'config')
-
 </script>
 <template>
   <div class="title">卡片预览</div>
@@ -37,17 +36,17 @@ const config = toRef(props, 'config')
       <!-- 进化信息 -->
       <div class="evolutionInfo">
         <div class="evolutionInfo-item" v-for="(item, index) in config.evolutionInfo" :key="index">
-          <div class="evolutionInfo-item-color" :style="{ backgroundColor: item.colorBg }"></div>
+          <div class="evolutionInfo-item-color" :style="{ backgroundColor: item.colorFirst }"></div>
           <div
             class="evolutionInfo-item-level"
             :style="{
-              backgroundColor: item.color === 7 || item.color === 3 ? '' : item.colorBg,
-              color: item.colorFg
+              backgroundColor: item.color === 7 || item.color === 3 ? item.second : item.colorFirst,
+              color: item.colorSecond
             }"
           >
             LV.{{ item.levelLabel }}起
           </div>
-          <div class="evolutionInfo-item-cost" :style="{ color: item.colorFg }">
+          <div class="evolutionInfo-item-cost" :style="{ color: item.colorSecond }">
             {{ item.cost }}
           </div>
         </div>
@@ -56,24 +55,38 @@ const config = toRef(props, 'config')
       <div class="card-bottom">
         <!-- 效果 -->
         <description :details="config.description" />
+        
         <!-- 信息 -->
         <div class="card-info">
           <div class="card-info-bg">
             <div
               class="card-info-bg-item"
-              v-for="(item, index) in config.colorsBg"
+              v-for="(item, index) in config.colorsFirst"
               :key="index"
               :style="{ backgroundColor: item }"
             ></div>
           </div>
           <div class="card-info-name">
-            <div class="name" :style="{ color: config.nameFg }">{{ config.name }}</div>
+            <div
+              class="name"
+              :style="{
+                color: config.nameSecond,
+                backgroundColor: config.colors.length > 1 ? config.nameFourth : ''
+              }"
+            >
+              {{ config.name }}
+            </div>
             <div class="card-info-number">
               <div class="number-box">
-                <div class="number" :style="{ color: config.nameFg }">{{ config.number }}</div>
+                <div
+                  class="number"
+                  :style="{ color: config.colorsSecond[config.colorsSecond.length - 1] }"
+                >
+                  {{ config.number }}
+                </div>
                 <div
                   class="rarity"
-                  :style="{ color: config.rarityFg, backgroundColor: config.nameFg }"
+                  :style="{ color: config.colorsFourth[config.colorsFourth.length - 1], backgroundColor: config.colorsSecond[config.colorsSecond.length - 1] }"
                 >
                   {{ config.rarityLabel }}
                 </div>
@@ -82,24 +95,28 @@ const config = toRef(props, 'config')
             </div>
           </div>
 
-          <div class="card-info-level">
-            <div class="level" :style="{ color: config.nameFg }">
+          <div
+            :class="{
+              'card-info-level': true,
+              'card-info-level-white': config.colors[0] === 5
+            }"
+          >
+            <div class="level" :style="{ color: config.nameThird }">
               <span class="label">Lv.</span>
               <span class="value">{{ config.levelLabel }}</span>
             </div>
-            <div class="info" :style="{ color: config.nameFg }">
+            <div class="info" :style="{ color: config.nameThird }">
               <span>{{ config.shapeLabel }}</span>
-              <span v-if="config.property">        |        {{ config.propertyLabel }}</span>
-              <span v-if="config.type">        |        {{ config.type }}</span>
+              <span v-if="config.property"> | {{ config.propertyLabel }}</span>
+              <span v-if="config.type"> | {{ config.type }}</span>
             </div>
           </div>
 
           <!-- 进化源 -->
           <div class="card-origin"></div>
-          
+
           <!-- 安防 -->
           <div class="card-security"></div>
-          
         </div>
       </div>
 
@@ -309,6 +326,10 @@ const config = toRef(props, 'config')
           font-family: 'Heavy';
           font-size: 40px;
           text-align: center;
+          // background-color: #000000;
+          -webkit-background-clip: text;
+          // -webkit-text-fill-color: #ffffff;
+          -webkit-text-stroke: 4px transparent;
         }
       }
 
@@ -363,6 +384,10 @@ const config = toRef(props, 'config')
         height: 70px;
         background: url('../assets/level_bg_1.png');
         background-size: cover;
+
+        &-white {
+          background: url('../assets/level_bg_2.png');
+        }
 
         .level {
           position: absolute;

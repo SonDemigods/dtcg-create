@@ -1,42 +1,56 @@
 export default [{
   code: 1,
   name: '红',
-  bg: '#e6002d',
-  fg: '#ffffff'
+  first: '#e6002d',
+  second: '#ffffff',
+  third: '#ffffff',
+  fourth: '#000000'
 },
 {
   code: 2,
   name: '蓝',
-  bg: '#0097e0',
-  fg: '#ffffff'
+  first: '#0097e0',
+  second: '#ffffff',
+  third: '#ffffff',
+  fourth: '#000000'
 },
 {
   code: 3,
   name: '黄',
-  bg: '#ffe100',
-  fg: '#000000'
+  first: '#ffe100',
+  second: '#000000',
+  third: '#ffffff',
+  fourth: '#ffffff'
 },
 {
   code: 4,
   name: '绿',
-  bg: '#009b6b',
-  fg: '#ffffff'
+  first: '#009b6b',
+  second: '#ffffff',
+  third: '#ffffff',
+  fourth: '#000000'
 },
 {
   code: 5,
   name: '黑',
-  bg: '#221714',
-  fg: '#ffffff'
+  first: '#221714',
+  second: '#ffffff',
+  third: '#000000',
+  fourth: '#000000'
 },
 {
   code: 6,
   name: '紫',
-  bg: '#6356a3',
-  fg: '#ffffff'
+  first: '#6356a3',
+  second: '#ffffff',
+  third: '#ffffff',
+  fourth: '#000000'
 },
 {
   code: 7,
   name: '白',
-  bg: '#ffffff',
-  fg: '#000000'
+  first: '#ffffff',
+  second: '#000000',
+  third: '#ffffff',
+  fourth: '#ffffff'
 }]

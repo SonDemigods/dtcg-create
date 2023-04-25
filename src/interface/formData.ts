@@ -1,8 +1,10 @@
 export interface evolutionInfoInterface {
   color: number,
   colorLabel?: string,
-  colorBg?: string,
-  colorFg?: string,
+  colorFirst?: string,
+  colorSecond?: string,
+  colorThird?: string,
+  colorFourth?: string,
   level: number,
   levelLabel?: string,
   cost: number
@@ -14,20 +16,23 @@ export interface formDataInterface {
   cardTypeLabel?: string,
   // 名称
   name: string,
-  nameFg: string,
+  nameSecond: string,
+  nameThird: string,
+  nameFourth: string,
   // 等级
   level: number,
   levelLabel?: string,
   // 颜色信息
   colors: Array<number>,
   colorsLabel?: Array<string>,
-  colorsBg?: Array<string>,
-  colorsFg?: Array<string>,
+  colorsFirst?: Array<string>,
+  colorsSecond?: Array<string>,
+  colorsThird?: Array<string>,
+  colorsFourth?: Array<string>,
   // 编号
   number: string,
   // 罕贵
   rarity: number,
-  rarityFg: string,
   rarityLabel?: string,
 
   // 形态
@@ -75,6 +80,8 @@ export interface formDataInterface {
 export interface configInterface {
   code: number,
   name: string,
-  bg?: string,
-  fg?: string
+  first?: string,
+  second?: string,
+  third?: string,
+  fourth?: string
 }
