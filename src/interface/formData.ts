@@ -14,6 +14,7 @@ export interface formDataInterface {
   cardTypeLabel?: string,
   // 名称
   name: string,
+  nameFg: string,
   // 等级
   level: number,
   levelLabel?: string,
@@ -26,6 +27,7 @@ export interface formDataInterface {
   number: string,
   // 罕贵
   rarity: number,
+  rarityFg: string,
   rarityLabel?: string,
 
   // 形态

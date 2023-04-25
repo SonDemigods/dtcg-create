@@ -31,6 +31,7 @@ const formData: Ref<formDataInterface> = ref({
   cardType: 1,
   // 名称
   name: '数码宝贝',
+  nameFg: '#ffffff',
   // 等级
   level: 2,
   // 颜色信息
@@ -39,6 +40,7 @@ const formData: Ref<formDataInterface> = ref({
   number: 'BT1-001',
   // 罕贵
   rarity: 1,
+  rarityFg: '#000000',
 
   // 形态
   shape: 1,
@@ -179,11 +181,18 @@ watch(
     res.colorsLabel = []
     res.colorsBg = []
     res.colorsFg = []
+    res.nameFg = '#ffffff'
+    res.rarityFg = '#000000'
     res.colors.map((item, index) => {
       const { label = '', bg = '', fg = '' } = updateColorLabelValue(item, colorData)
       res.colorsLabel[index] = label
       res.colorsBg[index] = bg
       res.colorsFg[index] = fg
+      // 特殊名字颜色
+      if (item === 3 || item === 7) {
+        res.nameFg = fg
+        res.rarityFg = '#ffffff'
+      }
     })
 
     // 更新进化信息
