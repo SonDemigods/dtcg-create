@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// 导入组件
 import preview from '@/components/preview.vue'
 import attribute from '@/components/attribute.vue'
 
@@ -18,6 +19,8 @@ const max = ref('350px')
 
 // 配置数据
 const configData: Ref<formDataInterface> = ref({
+  // 卡图
+  cardImage: '',
   // 卡种
   cardType: 1,
   // 名称
@@ -29,6 +32,10 @@ const configData: Ref<formDataInterface> = ref({
   level: 2,
   // 颜色信息
   colors: [1],
+  colorsFirst: ['#e6002d'],
+  colorsSecond: ['#ffffff'],
+  colorsThird: ['#ffffff'],
+  colorsFourth: ['#000000'],
   // 编号
   number: 'BT1-001',
   // 罕贵
@@ -71,6 +78,8 @@ const configData: Ref<formDataInterface> = ref({
   description: '',
   // 进化源效果显示
   originShow: false,
+  // 进化源图片
+  originImage: '',
   // 进化源效果
   origin: '',
   // 安防效果显示

@@ -27,6 +27,8 @@ import propertyData from '@/config/property'
 
 // 表单数据
 const formData: Ref<formDataInterface> = ref({
+  // 卡图
+  cardImage: '',
   // 卡种
   cardType: 1,
   // 名称
@@ -38,6 +40,10 @@ const formData: Ref<formDataInterface> = ref({
   level: 2,
   // 颜色信息
   colors: [1],
+  colorsFirst: ['#e6002d'],
+  colorsSecond: ['#ffffff'],
+  colorsThird: ['#ffffff'],
+  colorsFourth: ['#000000'],
   // 编号
   number: 'BT1-001',
   // 罕贵
@@ -80,6 +86,8 @@ const formData: Ref<formDataInterface> = ref({
   description: '',
   // 进化源效果显示
   originShow: false,
+  // 进化源图片
+  originImage: '',
   // 进化源效果
   origin: '',
   // 安防效果显示
@@ -87,6 +95,130 @@ const formData: Ref<formDataInterface> = ref({
   // 安防效果
   security: ''
 })
+
+/**
+ * @functionName checkCardConfigFormat
+ * @description 文件格式校验错误
+ * @author 张航
+ * @date 2023-04-26 16:05:39
+ * @version V1.0.0
+ */
+ const checkCardConfigFormat = () => {
+  // TODO this指向问题
+  this.$Message.error('文件格式错误，请上传.json格式的文件！')
+}
+
+/**
+ * @functionName checkCardConfigSize
+ * @description 文件大小校验
+ * @author 张航
+ * @date 2023-04-26 16:06:06
+ * @version V1.0.0
+ */
+const checkCardConfigSize = () => {
+  // TODO this指向问题
+  this.$Message.error('文件太大，请上传不大于10MB的配置！')
+}
+
+/**
+ * @functionName checkCardImageFormat
+ * @description 文件格式校验错误
+ * @author 张航
+ * @date 2023-04-26 16:05:39
+ * @version V1.0.0
+ */
+const checkCardImageFormat = () => {
+  // TODO this指向问题
+  this.$Message.error('文件格式错误，请上传.jpg，.jpeg，.png格式的图片！')
+}
+
+/**
+ * @functionName checkCardImageSize
+ * @description 文件大小校验
+ * @author 张航
+ * @date 2023-04-26 16:06:06
+ * @version V1.0.0
+ */
+const checkCardImageSize = () => {
+  // TODO this指向问题
+  this.$Message.error('文件太大，请上传不大于10MB的图片！')
+}
+
+/**
+ * @functionName updateCardImageUrl
+ * @param {Object} file 文件对象
+ * @param {String} name 更新字段
+ * @description 更新图片地址
+ * @author 张航
+ * @date 2023-04-26 16:06:36
+ * @version V1.0.0
+ */
+const updateCardImageUrl = (file: object, name: string) => {
+  file2base(file).then((res: string) => {
+    if (name === 'cardImage') {
+      formData.value.cardImage = res
+    }
+    if (name === 'originImage') {
+      formData.value.originImage = res
+    }
+  })
+  return false
+}
+
+// 是否打开图片预览
+const cardImageShow = ref(false)
+// 图片预览地址
+const imagePreviewUrl = ref('')
+
+/**
+ * @functionName openCardImageView
+ * @description 打开图片预览
+ * @author 张航
+ * @date 2023-04-26 16:04:41
+ * @version V1.0.0
+ */
+const openCardImageView = (url: string) => {
+  imagePreviewUrl.value = url
+  cardImageShow.value = true
+}
+
+/**
+ * @functionName removeCardImage
+ * @param {String} name 参数
+ * @description 根据name删除对应的图片
+ * @author 张航
+ * @date 2023-04-26 16:03:47
+ * @version V1.0.0
+ */
+const removeCardImage = (name: string) => {
+  if (name === 'cardImage') {
+    formData.value.cardImage = ''
+  }
+  if (name === 'originImage') {
+    formData.value.originImage = ''
+  }
+}
+
+/**
+ * @functionName file2base
+ * @param {Object} file 文件对象
+ * @return {Promise} 返回base64数据
+ * @description 把文件转成base64
+ * @author 张航
+ * @date 2023-04-26 15:09:27
+ * @version V1.0.0
+ */
+const file2base = (file: any): Promise<any> => {
+  const reader = new FileReader()
+
+  return new Promise((resolve) => {
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const { result = '' } = reader
+      resolve(result)
+    }
+  })
+}
 
 /**
  * @functionName changeEvolutionSize
@@ -128,7 +260,7 @@ const changeEvolutionSize = (value: number) => {
  */
 const updateFormLabel = (key: number, config: Array<configInterface>) => {
   let res = `${key}`
-  config.map(item => {
+  config.map((item) => {
     if (item.code === key) {
       res = item.name
     }
@@ -154,17 +286,35 @@ const updateColorLabelValue = (key: number, config: Array<configInterface>) => {
     third: '',
     fourth: ''
   }
-  config.map(item => {
+  config.map((item) => {
     if (item.code === key) {
-      res.label = item.name,
-      res.first = item.first || '',
-      res.second = item.second || '',
-      res.third = item.third || '',
-      res.fourth = item.fourth || ''
+      ;(res.label = item.name),
+        (res.first = item.first || ''),
+        (res.second = item.second || ''),
+        (res.third = item.third || ''),
+        (res.fourth = item.fourth || '')
     }
   })
   return res
 }
+
+/**
+ * @functionName updateCardConfig
+ * @param {Object} file 文件对象
+ * @description 导入配置
+ * @author 张航
+ * @date 2023-04-27 17:08:54
+ * @version V1.0.0
+ */
+const updateCardConfig = (file: any) => {
+  const reader = new FileReader()
+  reader.readAsText(file, 'UTF-8')
+  reader.onload = () => {
+    const { result = '' } = reader
+    formData.value = JSON.parse(result)
+  }
+}
+
 
 // 组件事件
 const emit = defineEmits(['on-change'])
@@ -173,7 +323,7 @@ const emit = defineEmits(['on-change'])
 watch(
   formData,
   (newValue, oldValue) => {
-    let res = {...newValue}
+    let res = { ...newValue }
     // 更新字段label
     res.cardTypeLabel = updateFormLabel(newValue.cardType, cardTypeData)
     res.levelLabel = updateFormLabel(newValue.level, levelData)
@@ -191,7 +341,13 @@ watch(
     res.nameSecond = '#ffffff'
     res.nameThird = '#ffffff'
     res.colors.map((item, index) => {
-      const { label = '', first = '', second = '', third = '', fourth = '' } = updateColorLabelValue(item, colorData)
+      const {
+        label = '',
+        first = '',
+        second = '',
+        third = '',
+        fourth = ''
+      } = updateColorLabelValue(item, colorData)
       res.colorsLabel[index] = label
       res.colorsFirst[index] = first
       res.colorsSecond[index] = second
@@ -207,8 +363,14 @@ watch(
     })
 
     // 更新进化信息
-    res.evolutionInfo.map(item => {
-      const { label = '', first = '', second = '', third = '', fourth ='' } = updateColorLabelValue(item.color, colorData)
+    res.evolutionInfo.map((item) => {
+      const {
+        label = '',
+        first = '',
+        second = '',
+        third = '',
+        fourth = ''
+      } = updateColorLabelValue(item.color, colorData)
       item.colorLabel = label
       item.colorFirst = first
       item.colorSecond = second
@@ -216,17 +378,60 @@ watch(
       item.colorFourth = fourth
       item.levelLabel = updateFormLabel(item.level, levelData)
     })
-    
+
     emit('on-change', res)
   },
   { deep: true }
 )
 </script>
 <template>
-  <div class="title">配置选项</div>
+  <ImagePreview
+    v-model="cardImageShow"
+    :preview-list="[imagePreviewUrl]"
+    :mask-closable="false"
+  />
+  <div class="title">
+    配置选项
+    <div class="right">
+      <Upload
+        :show-upload-list="false"
+        :format="['json']"
+        :max-size="1024 * 10"
+        :on-format-error="checkCardConfigFormat"
+        :on-exceeded-size="checkCardConfigSize"
+        :before-upload="(file: object) => updateCardConfig(file)"
+      >
+        <Button>导入配置</Button>
+      </Upload>
+      
+    </div>
+  </div>
   <div class="box">
     <Form label-position="top">
       <Divider orientation="left">基本信息</Divider>
+      <FormItem label="卡图">
+        <Upload
+          v-if="formData.cardImage.length === 0"
+          :show-upload-list="false"
+          :format="['jpg', 'jpeg', 'png']"
+          :max-size="1024 * 10"
+          :on-format-error="checkCardImageFormat"
+          :on-exceeded-size="checkCardImageSize"
+          :before-upload="(file: object) => updateCardImageUrl(file, 'cardImage')"
+          style="display: inline-block; width: 100px; vertical-align: top"
+        >
+          <div class="uploadImageBox">
+            <Icon type="ios-camera" size="30"></Icon>
+          </div>
+        </Upload>
+        <div class="uploadImagePreviewBox" v-else>
+          <Image :src="formData.cardImage" fit="contain" width="100px" height="100px" />
+          <div class="upload-cover">
+            <Icon type="ios-eye-outline" @click="openCardImageView(formData.cardImage)"></Icon>
+            <Icon type="ios-trash-outline" @click="removeCardImage('cardImage')"></Icon>
+          </div>
+        </div>
+      </FormItem>
       <FormItem label="类型">
         <RadioGroup v-model="formData.cardType">
           <Radio v-for="item in cardTypeData" :key="item.code" :label="item.code">{{
@@ -240,7 +445,7 @@ watch(
       <FormItem label="等级">
         <Select v-model="formData.level" style="width: 100%">
           <Option v-for="item in levelData" :value="item.code" :key="item.code">
-          LV.{{ item.name }}
+            LV.{{ item.name }}
           </Option>
         </Select>
       </FormItem>
@@ -396,8 +601,8 @@ watch(
         <Input
           v-model="formData.description"
           type="textarea"
-          :rows="6"
-          :maxlength="200"
+          :rows="8"
+          :maxlength="600"
           show-word-limit
         />
       </FormItem>
@@ -406,12 +611,35 @@ watch(
       <FormItem label="是否展示进化源效果">
         <Switch v-model="formData.originShow" />
       </FormItem>
+      <FormItem label="进化源图片">
+        <Upload
+          v-if="formData.originImage.length === 0"
+          :show-upload-list="false"
+          :format="['jpg', 'jpeg', 'png']"
+          :max-size="1024 * 10"
+          :on-format-error="checkCardImageFormat"
+          :on-exceeded-size="checkCardImageSize"
+          :before-upload="(file: object) => updateCardImageUrl(file, 'originImage')"
+          style="display: inline-block; width: 100px; vertical-align: top"
+        >
+          <div class="uploadImageBox">
+            <Icon type="ios-camera" size="30"></Icon>
+          </div>
+        </Upload>
+        <div class="uploadImagePreviewBox" v-else>
+          <Image :src="formData.originImage" fit="contain" width="100px" height="100px" />
+          <div class="upload-cover">
+            <Icon type="ios-eye-outline" @click="openCardImageView(formData.originImage)"></Icon>
+            <Icon type="ios-trash-outline" @click="removeCardImage('originImage')"></Icon>
+          </div>
+        </div>
+      </FormItem>
       <FormItem label="进化源效果">
         <Input
           v-model="formData.origin"
           type="textarea"
-          :rows="4"
-          :maxlength="200"
+          :rows="6"
+          :maxlength="400"
           show-word-limit
         />
       </FormItem>
@@ -424,8 +652,8 @@ watch(
         <Input
           v-model="formData.security"
           type="textarea"
-          :rows="4"
-          :maxlength="200"
+          :rows="6"
+          :maxlength="400"
           show-word-limit
         />
       </FormItem>
@@ -442,6 +670,11 @@ watch(
   background: #ffffff;
   box-shadow: 0 1px 6px #bbbbbb;
   border-bottom: solid 1px #f2f2f2;
+
+  .right {
+    float: right;
+    // margin: 4px 0;
+  }
 }
 
 .box {
@@ -449,6 +682,56 @@ watch(
   padding: 20px;
   overflow: auto;
   background: #ffffff;
+}
+
+.uploadImageBox {
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  border: 1px dashed #dcdee2;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #2d8cf0;
+  }
+}
+
+.uploadImagePreviewBox {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  position: relative;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  margin-right: 4px;
+
+  .upload-cover {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+
+    i {
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      margin: 0 8px;
+    }
+  }
+
+  &:hover .upload-cover {
+    display: block;
+  }
 }
 
 .evolutionInfo {

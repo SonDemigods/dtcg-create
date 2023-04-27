@@ -11,6 +11,8 @@ export interface evolutionInfoInterface {
 }
 
 export interface formDataInterface {
+  // 卡图
+  cardImage: string,
   // 卡种
   cardType: number,
   cardTypeLabel?: string,
@@ -69,6 +71,8 @@ export interface formDataInterface {
   description: string,
   // 进化源效果显示
   originShow: boolean,
+  // 进化源图片
+  originImage: string,
   // 进化源效果
   origin: string,
   // 安防效果显示
