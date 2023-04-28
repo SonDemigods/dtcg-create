@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // 导入包
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas'
 
 // 导入组件
 import description from '@/components/description.vue'
@@ -24,13 +24,13 @@ const config = toRef(props, 'config')
  */
 const exportCard = () => {
   const dom = window.document.getElementById('export')
-  html2canvas(dom).then(res => {
-    const base64 = res.toDataURL("image/png", 0.1)
+  html2canvas(dom).then((res) => {
+    const base64 = res.toDataURL('image/png', 0.1)
 
-    let btn = document.createElement("a");
-    btn.href = base64;
-    btn.setAttribute("download", `${config.value.number}-${config.value.name}`);
-    btn.click();
+    let btn = document.createElement('a')
+    btn.href = base64
+    btn.setAttribute('download', `${config.value.number}-${config.value.name}`)
+    btn.click()
   })
 }
 
@@ -42,7 +42,11 @@ const exportCard = () => {
  * @version V1.0.0
  */
 const exportConfig = () => {
-  saveFile(JSON.stringify(config.value), 'application/json', `${config.value.number}-${config.value.name}`)
+  saveFile(
+    JSON.stringify(config.value),
+    'application/json',
+    `${config.value.number}-${config.value.name}`
+  )
 }
 
 /**
@@ -56,49 +60,52 @@ const exportConfig = () => {
  * @version V1.0.0
  */
 const saveFile = (value: any, type: string, name: string) => {
-  let blob;
-  if (typeof window.Blob == "function") {
+  let blob
+  if (typeof window.Blob == 'function') {
     blob = new Blob([value], {
       type: type
-    });
+    })
   } else {
-    const BlobBuilder = window.BlobBuilder || window.MozBlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder;
-    const bb = new BlobBuilder();
-    bb.append(value);
-    blob = bb.getBlob(type);
+    const BlobBuilder =
+      window.BlobBuilder ||
+      window.MozBlobBuilder ||
+      window.WebKitBlobBuilder ||
+      window.MSBlobBuilder
+    const bb = new BlobBuilder()
+    bb.append(value)
+    blob = bb.getBlob(type)
   }
-  const URL = window.URL || window.webkitURL;
-  const bloburl = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
+  const URL = window.URL || window.webkitURL
+  const bloburl = URL.createObjectURL(blob)
+  const anchor = document.createElement('a')
   if ('download' in anchor) {
-    anchor.style.visibility = "hidden";
-    anchor.href = bloburl;
-    anchor.download = name;
-    document.body.appendChild(anchor);
-    var evt = document.createEvent("MouseEvents");
-    evt.initEvent("click", true, true);
-    anchor.dispatchEvent(evt);
-    document.body.removeChild(anchor);
+    anchor.style.visibility = 'hidden'
+    anchor.href = bloburl
+    anchor.download = name
+    document.body.appendChild(anchor)
+    var evt = document.createEvent('MouseEvents')
+    evt.initEvent('click', true, true)
+    anchor.dispatchEvent(evt)
+    document.body.removeChild(anchor)
   } else if (navigator.msSaveBlob) {
-    navigator.msSaveBlob(blob, name);
+    navigator.msSaveBlob(blob, name)
   } else {
-    location.href = bloburl;
+    location.href = bloburl
   }
 }
-
 </script>
 <template>
   <div class="title">
     卡片预览
     <div class="right">
-      <Button type="primary" @click="exportCard" style="margin-right: 10px;">导出图片</Button>
-      <Button @click="exportConfig" >导出配置</Button>
+      <Button type="primary" @click="exportCard" style="margin-right: 10px">导出图片</Button>
+      <Button @click="exportConfig">导出配置</Button>
     </div>
   </div>
   <div class="box">
     <div class="card" id="export">
       <!-- 卡图 -->
-      <img class="card-image" :src="config.cardImage" />
+      <img class="card-image" v-if="config.cardImage.length > 0" :src="config.cardImage" />
 
       <!-- 卡种 -->
       <div class="cardType">{{ config.cardTypeLabel }}</div>
@@ -118,11 +125,25 @@ const saveFile = (value: any, type: string, name: string) => {
       <!-- 进化信息 -->
       <div class="evolutionInfo">
         <div class="evolutionInfo-item" v-for="(item, index) in config.evolutionInfo" :key="index">
-          <div class="evolutionInfo-item-color" :style="{ backgroundColor: item.colorFirst }"></div>
+          <div
+            class="evolutionInfo-item-color"
+            :style="{
+              backgroundColor: item.colorFirst
+            }"
+          ></div>
           <div
             class="evolutionInfo-item-level"
             :style="{
-              backgroundColor: item.color === 7 || item.color === 3 ? item.second : item.colorFirst,
+              textShadow:
+                item.color === 7 || item.color === 3
+                  ? 'none'
+                  : `
+                  -2px 2px 0px ${item.colorFirst}, 
+                  2px 2px 0px ${item.colorFirst}, 
+                  2px -2px 0px ${item.colorFirst},
+                  -2px -2px 0px ${item.colorFirst}
+                  `,
+              fontWeight: item.color === 7 || item.color === 3 ? 900 : 'bold',
               color: item.colorSecond
             }"
           >
@@ -141,7 +162,10 @@ const saveFile = (value: any, type: string, name: string) => {
         </div>
 
         <!-- 信息 -->
-        <div class="card-info" :style="{ marginBottom: config.originShow || config.securityShow ? '10px' : '30px'}">
+        <div
+          class="card-info"
+          :style="{ marginBottom: config.originShow || config.securityShow ? '10px' : '30px' }"
+        >
           <div class="card-info-bg">
             <div
               class="card-info-bg-item"
@@ -154,11 +178,19 @@ const saveFile = (value: any, type: string, name: string) => {
             <div
               :class="{
                 name: true,
-                'name-no-level': config.cardType === 3 || config.cardType === 4
+                'name-no-level': (config.cardType === 3 || config.cardType) === 4
               }"
               :style="{
                 color: config.nameSecond,
-                backgroundColor: config.colors.length > 1 ? config.nameFourth : ''
+                textShadow:
+                  config.colors.length > 1
+                    ? `
+                    -2px 2px 0px ${config.nameFourth}, 
+                    2px 2px 0px ${config.nameFourth}, 
+                    2px -2px 0px ${config.nameFourth},
+                    -2px -2px 0px ${config.nameFourth}
+                    `
+                    : ''
               }"
             >
               {{ config.name }}
@@ -218,13 +250,21 @@ const saveFile = (value: any, type: string, name: string) => {
             class="card-origin-title"
             :style="{
               color: config.nameSecond,
-              backgroundColor: config.colors.length > 1 ? config.nameFourth : ''
+              textShadow:
+                config.colors.length > 1
+                  ? `
+                  -1px 1px 0px ${config.nameFourth}, 
+                  1px 1px 0px ${config.nameFourth}, 
+                  1px -1px 0px ${config.nameFourth},
+                  -1px -1px 0px ${config.nameFourth}
+                  `
+                  : ''
             }"
           >
             进化源效果
           </div>
           <div class="card-origin-img" :style="{ borderColor: `${config.nameSecond}aa` }">
-            <img class="img" :src="config.originImage" />
+            <img class="img" v-if="config.originImage.length > 0" :src="config.originImage" />
           </div>
           <div class="card-origin-description">
             <description :details="config.origin" />
@@ -259,7 +299,15 @@ const saveFile = (value: any, type: string, name: string) => {
             class="card-security-title"
             :style="{
               color: config.nameSecond,
-              backgroundColor: config.colors.length > 1 ? config.nameFourth : ''
+              textShadow:
+                config.colors.length > 1
+                  ? `
+              -1px 1px 0px ${config.nameFourth}, 
+              1px 1px 0px ${config.nameFourth}, 
+              1px -1px 0px ${config.nameFourth},
+              -1px -1px 0px ${config.nameFourth}
+              `
+                  : ''
             }"
           >
             安 防
@@ -269,7 +317,6 @@ const saveFile = (value: any, type: string, name: string) => {
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -360,13 +407,17 @@ const saveFile = (value: any, type: string, name: string) => {
       &-sub {
         display: inline-block;
         padding: 0 8px;
-        background-color: #ffffff;
         font-family: 'coolvetica';
         font-weight: bold;
         text-align: right;
         color: #000000;
-        -webkit-background-clip: text;
-        // -webkit-text-fill-color: #000000;
+        text-shadow: -3px 3px 0px #ffffff, 3px 3px 0px #ffffff, 3px -3px 0px #ffffff,
+          -3px -3px 0px #ffffff;
+      }
+
+      &-sub {
+        text-shadow: -2px 2px 0px #ffffff, 2px 2px 0px #ffffff, 2px -2px 0px #ffffff,
+          -2px -2px 0px #ffffff;
       }
 
       &-main {
@@ -375,7 +426,6 @@ const saveFile = (value: any, type: string, name: string) => {
         font-size: 84px;
         line-height: 80px;
         letter-spacing: 8px;
-        -webkit-text-stroke: 8px transparent;
       }
 
       &-title {
@@ -383,14 +433,12 @@ const saveFile = (value: any, type: string, name: string) => {
         font-family: 'Microsoft YaHei';
         font-size: 24px;
         line-height: 24px;
-        -webkit-text-stroke: 6px transparent;
       }
 
       &-number {
         font-size: 38px;
         line-height: 40px;
         letter-spacing: 4px;
-        -webkit-text-stroke: 6px transparent;
       }
     }
 
@@ -435,9 +483,6 @@ const saveFile = (value: any, type: string, name: string) => {
           font-size: 18px;
           font-weight: bold;
           text-align: center;
-          -webkit-background-clip: text;
-          // -webkit-text-fill-color: #ffffff;
-          -webkit-text-stroke: 2px transparent;
         }
 
         &-cost {
@@ -470,7 +515,7 @@ const saveFile = (value: any, type: string, name: string) => {
       position: relative;
       width: 670px;
       height: 76px;
-      margin-top: 20px;
+      margin-top: 10px;
       // margin-bottom: 30px;
       border-radius: 10px;
 
@@ -499,9 +544,6 @@ const saveFile = (value: any, type: string, name: string) => {
           font-size: 40px;
           text-align: center;
           line-height: 60px;
-          -webkit-background-clip: text;
-          // -webkit-text-fill-color: #ffffff;
-          -webkit-text-stroke: 4px transparent;
 
           &-no-level {
             line-height: 76px;
@@ -628,9 +670,6 @@ const saveFile = (value: any, type: string, name: string) => {
         font-size: 16px;
         line-height: 20px;
         text-align: center;
-        -webkit-background-clip: text;
-        // -webkit-text-fill-color: #ffffff;
-        -webkit-text-stroke: 4px transparent;
       }
 
       &-img {
@@ -714,9 +753,6 @@ const saveFile = (value: any, type: string, name: string) => {
         font-size: 16px;
         line-height: 20px;
         text-align: center;
-        -webkit-background-clip: text;
-        // -webkit-text-fill-color: #ffffff;
-        -webkit-text-stroke: 4px transparent;
       }
 
       &-description {

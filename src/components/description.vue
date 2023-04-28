@@ -95,18 +95,18 @@ watch(
 <style lang="less" scoped>
 .description {
   padding: 4px;
-  background-color: #000000;
   font-size: 22px;
-  line-height: 38px;
+  line-height: 30px;
   color: #ffffff;
-  -webkit-background-clip: text;
-  -webkit-text-stroke: 4px transparent;
+  text-shadow: -1px 1px 3px #000000, 1px 1px 3px #000000, 1px -1px 3px #000000,
+          -1px -1px 3px #000000;
 
   &-row {
+    margin-bottom: 6px;
 
     .type1 {
       display: inline-block;
-      padding: 4px 10px;
+      padding: 2px 6px;
       margin-right: 10px;
       border-style: solid;
       border-width: 2px;
@@ -119,15 +119,16 @@ watch(
       font-weight: 400;
       line-height: 20px;
       vertical-align: top;
+      text-shadow: none;
     }
 
     .type2 {
       position: relative;
       display: inline-block;
-      padding: 4px;
+      padding: 2px;
       margin: 0 20px;
       border-style: solid;
-      border-width: 2px;
+      border-width: 2px 0;
       border-color: #000000;
       background-image: -moz-linear-gradient( 90deg, rgb(209,122,60) 0%, rgb(129,29,16) 100%);
       background-image: -webkit-linear-gradient( 90deg, rgb(209,122,60) 0%, rgb(129,29,16) 100%);
@@ -136,15 +137,16 @@ watch(
       font-weight: 400;
       line-height: 20px;
       vertical-align: top;
+      text-shadow: none;
 
       &::before {
         content: '';
         position: absolute;
         top: -2px;
-        left: -18px;
+        left: -15px;
         display: block;
-        width: 18px;
-        height: 32px;
+        width: 16px;
+        height: 28px;
         background-image: url('../assets/description_type2_1.png');
         background-size: cover;
       }
@@ -153,10 +155,10 @@ watch(
         content: '';
         position: absolute;
         top: -2px;
-        right: -18px;
+        right: -15px;
         display: block;
-        width: 18px;
-        height: 32px;
+        width: 16px;
+        height: 28px;
         background-image: url('../assets/description_type2_2.png');
         background-size: cover;
       }
@@ -164,7 +166,7 @@ watch(
 
     .type3 {
       display: inline-block;
-      padding: 4px 10px;
+      padding: 2px 6px;
       margin-right: 10px;
       border-style: solid;
       border-width: 2px;
@@ -177,6 +179,7 @@ watch(
       font-weight: 400;
       line-height: 20px;
       vertical-align: top;
+      text-shadow: none;
     }
 
 
