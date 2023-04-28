@@ -320,7 +320,7 @@ const updateCardConfig = (file: any) => {
     const reader = new FileReader()
     reader.readAsText(file, 'UTF-8')
     reader.onload = () => {
-      const { result = '' } = reader
+      const result = String(reader.result || '')
       formData.value = JSON.parse(result)
     }
   } else {
@@ -360,11 +360,11 @@ watch(
         third = '',
         fourth = ''
       } = updateColorLabelValue(item, colorData)
-      res.colorsLabel[index] = label
-      res.colorsFirst[index] = first
-      res.colorsSecond[index] = second
-      res.colorsThird[index] = third
-      res.colorsFourth[index] = fourth
+      res.colorsLabel![index] = label
+      res.colorsFirst![index] = first
+      res.colorsSecond![index] = second
+      res.colorsThird![index] = third
+      res.colorsFourth![index] = fourth
 
       // 特殊名字颜色
       if (index === 0) {

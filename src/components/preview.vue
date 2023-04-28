@@ -23,11 +23,11 @@ const config = toRef(props, 'config')
  * @version V1.0.0
  */
 const exportCard = () => {
-  const dom = window.document.getElementById('export')
+  const dom = window.document.getElementById('export') || window.document.body
   html2canvas(dom).then((res) => {
     const base64 = res.toDataURL('image/png', 0.1)
 
-    let btn = document.createElement('a')
+    const btn = document.createElement('a')
     btn.href = base64
     btn.setAttribute('download', `${config.value.number}-${config.value.name}`)
     btn.click()
@@ -42,57 +42,17 @@ const exportCard = () => {
  * @version V1.0.0
  */
 const exportConfig = () => {
-  saveFile(
-    JSON.stringify(config.value),
-    'application/json',
-    `${config.value.number}-${config.value.name}`
-  )
+  const data = JSON.stringify(config.value)
+  const blob = new Blob([data], {type: 'application/json'})
+  const URL = window.URL || window.webkitURL
+  const blobUrl = URL.createObjectURL(blob)
+
+  const btn = document.createElement('a')
+  btn.href = blobUrl
+  btn.setAttribute('download', `${config.value.number}-${config.value.name}`)
+  btn.click()
 }
 
-/**
- * @functionName saveFile
- * @param {*} value 数据对象
- * @param {String} type 文件类型
- * @param {String} name 文件名
- * @description 下载文件
- * @author 张航
- * @date 2023-04-27 16:12:14
- * @version V1.0.0
- */
-const saveFile = (value: any, type: string, name: string) => {
-  let blob
-  if (typeof window.Blob == 'function') {
-    blob = new Blob([value], {
-      type: type
-    })
-  } else {
-    const BlobBuilder =
-      window.BlobBuilder ||
-      window.MozBlobBuilder ||
-      window.WebKitBlobBuilder ||
-      window.MSBlobBuilder
-    const bb = new BlobBuilder()
-    bb.append(value)
-    blob = bb.getBlob(type)
-  }
-  const URL = window.URL || window.webkitURL
-  const bloburl = URL.createObjectURL(blob)
-  const anchor = document.createElement('a')
-  if ('download' in anchor) {
-    anchor.style.visibility = 'hidden'
-    anchor.href = bloburl
-    anchor.download = name
-    document.body.appendChild(anchor)
-    var evt = document.createEvent('MouseEvents')
-    evt.initEvent('click', true, true)
-    anchor.dispatchEvent(evt)
-    document.body.removeChild(anchor)
-  } else if (navigator.msSaveBlob) {
-    navigator.msSaveBlob(blob, name)
-  } else {
-    location.href = bloburl
-  }
-}
 </script>
 <template>
   <div class="title">
