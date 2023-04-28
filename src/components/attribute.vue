@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// 导入组件
+import { Message } from 'view-ui-plus'
+
 // 导入vue功能
 import { ref, watch } from 'vue'
 
@@ -103,9 +106,8 @@ const formData: Ref<formDataInterface> = ref({
  * @date 2023-04-26 16:05:39
  * @version V1.0.0
  */
- const checkCardConfigFormat = () => {
-  // TODO this指向问题
-  this.$Message.error('文件格式错误，请上传.json格式的文件！')
+const checkCardConfigFormat = () => {
+  Message.error('文件格式错误，请上传.json格式的文件！')
 }
 
 /**
@@ -116,8 +118,7 @@ const formData: Ref<formDataInterface> = ref({
  * @version V1.0.0
  */
 const checkCardConfigSize = () => {
-  // TODO this指向问题
-  this.$Message.error('文件太大，请上传不大于10MB的配置！')
+  Message.error('文件太大，请上传不大于10MB的配置！')
 }
 
 /**
@@ -128,8 +129,8 @@ const checkCardConfigSize = () => {
  * @version V1.0.0
  */
 const checkCardImageFormat = () => {
-  // TODO this指向问题
-  this.$Message.error('文件格式错误，请上传.jpg，.jpeg，.png格式的图片！')
+  console.log('error')
+  Message.error('文件格式错误，请上传.jpg，.jpeg，.png格式的图片！')
 }
 
 /**
@@ -140,8 +141,7 @@ const checkCardImageFormat = () => {
  * @version V1.0.0
  */
 const checkCardImageSize = () => {
-  // TODO this指向问题
-  this.$Message.error('文件太大，请上传不大于10MB的图片！')
+  Message.error('文件太大，请上传不大于10MB的图片！')
 }
 
 /**
@@ -153,15 +153,23 @@ const checkCardImageSize = () => {
  * @date 2023-04-26 16:06:36
  * @version V1.0.0
  */
-const updateCardImageUrl = (file: object, name: string) => {
-  file2base(file).then((res: string) => {
-    if (name === 'cardImage') {
-      formData.value.cardImage = res
-    }
-    if (name === 'originImage') {
-      formData.value.originImage = res
-    }
-  })
+const updateCardImageUrl = (file: any, name: string) => {
+  console.log(file)
+  const { type = '' } = file
+
+  if (type.indexOf('jpg') > 0 || type.indexOf('jpeg') > 0 || type.indexOf('png') > 0) {
+    file2base(file).then((res: string) => {
+      if (name === 'cardImage') {
+        formData.value.cardImage = res
+      }
+      if (name === 'originImage') {
+        formData.value.originImage = res
+      }
+    })
+  } else {
+    checkCardImageFormat()
+  }
+
   return false
 }
 
@@ -307,14 +315,18 @@ const updateColorLabelValue = (key: number, config: Array<configInterface>) => {
  * @version V1.0.0
  */
 const updateCardConfig = (file: any) => {
-  const reader = new FileReader()
-  reader.readAsText(file, 'UTF-8')
-  reader.onload = () => {
-    const { result = '' } = reader
-    formData.value = JSON.parse(result)
+  const { type = '' } = file
+  if (type.indexOf('json') > 0) {
+    const reader = new FileReader()
+    reader.readAsText(file, 'UTF-8')
+    reader.onload = () => {
+      const { result = '' } = reader
+      formData.value = JSON.parse(result)
+    }
+  } else {
+    checkCardConfigFormat()
   }
 }
-
 
 // 组件事件
 const emit = defineEmits(['on-change'])
@@ -385,11 +397,7 @@ watch(
 )
 </script>
 <template>
-  <ImagePreview
-    v-model="cardImageShow"
-    :preview-list="[imagePreviewUrl]"
-    :mask-closable="false"
-  />
+  <ImagePreview v-model="cardImageShow" :preview-list="[imagePreviewUrl]" :mask-closable="false" />
   <div class="title">
     配置选项
     <div class="right">
@@ -403,7 +411,6 @@ watch(
       >
         <Button>导入配置</Button>
       </Upload>
-      
     </div>
   </div>
   <div class="box">
