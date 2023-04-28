@@ -326,17 +326,17 @@ const exportConfig = () => {
     }
 
     .cardType {
+      position: absolute;
+      left: 50%;
       width: 100px;
-      margin: 0 auto;
+      margin-left: -50px;
       padding: 20px 0;
-      background-color: #ffffff;
       font-family: 'Regular';
       text-align: center;
       color: #000000;
       font-size: 20px;
-      -webkit-background-clip: text;
-      // -webkit-text-fill-color: #000000;
-      -webkit-text-stroke: 6px transparent;
+      text-shadow: -1px 1px 0px #ffffff, 1px 1px 0px #ffffff, 1px -1px 0px #ffffff,
+          -1px -1px 0px #ffffff;
     }
 
     .cost {
