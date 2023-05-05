@@ -71,12 +71,38 @@ const configData: Ref<formDataInterface> = ref({
   evolutionInfo: [
     {
       color: 1,
+      colorLabel: '红',
       level: 2,
+      levelLabel: 'lv.2',
       cost: 0
     }
   ],
-
-  // 技能描述
+  // 特殊进化
+  specialEvolution: '',
+  // 是否展示合步进化
+  mergeEvolutionShow: false,
+  // 合步进化数量
+  mergeEvolutionSize: 2,
+  // 合步进化颜色
+  mergeEvolutionInfo: [
+    {
+      color: 1,
+      colorLabel: '红',
+      level: 2,
+      levelLabel: 'lv.2',
+      cost: 0
+    },
+    {
+      color: 1,
+      colorLabel: '红',
+      level: 2,
+      levelLabel: 'lv.2',
+      cost: 0
+    }
+  ],
+  // 合步进化费用
+  mergeEvolutionCost: 0,
+  // 效果
   description: '',
   // 进化源效果显示
   originShow: false,

@@ -52,6 +52,47 @@ const exportConfig = () => {
   btn.setAttribute('download', `${config.value.number}-${config.value.name}`)
   btn.click()
 }
+
+/**
+ * @functionName calcBorderImage
+ * @return {String} 返回结果
+ * @description 计算边框颜色
+ * @author 张航
+ * @date 2023-05-05 14:55:42
+ * @version V1.0.0
+ */
+const calcBorderImage = () => {
+  let res = ''
+  const { mergeEvolutionSize = 0 } = config.value
+
+  // 颜色位置
+  let pos: any = []
+
+  for (let index = 0; index < mergeEvolutionSize; index++) {
+    if (index === 0) {
+      pos[index] = ' 0%'
+    }
+    if (index === mergeEvolutionSize) {
+      pos[index] = ' 100%'
+    }
+    if (index > 0 && index < mergeEvolutionSize) {
+      const p = 100 / (mergeEvolutionSize - 1)
+      pos[index] = ` ${p * index}%`
+    }
+  }
+
+  // 颜色
+  config.value.mergeEvolutionInfo.map((item: any, index: number) => {
+    if (index === 0) {
+      res = res + `${item.colorFirst} ${pos[index]}`
+    } else {
+      res = res + `,${item.colorFirst} ${pos[index]}`
+    }
+  })
+  console.log(res)
+
+  return { backgroundImage: `linear-gradient(120deg, ${res})` }
+}
 </script>
 <template>
   <div class="title">
@@ -115,6 +156,32 @@ const exportConfig = () => {
       </div>
 
       <div class="card-bottom">
+        <!-- 特殊进化 -->
+        <span v-if="config.specialEvolution" class="card-special-evolution">
+          {{ config.specialEvolution }}
+        </span>
+
+        <!-- 合步进化 -->
+        <div class="card-merge-evolution" v-if="config.mergeEvolutionShow">
+          <span
+            class="card-merge-evolution-tag"
+            :style="{ width: `${78 + config.mergeEvolutionSize * 83}px` }"
+          >
+            <span class="card-merge-evolution-tag-bj" :style="calcBorderImage()"></span>
+            <span class="card-merge-evolution-tag-content">
+              合步：
+              <span v-for="(evolution, index) in config.mergeEvolutionInfo" :key="index">
+                <span v-if="index === 0"
+                  >{{ evolution.colorLabel }} Lv.{{ evolution.levelLabel }}</span
+                >
+                <span v-else> + {{ evolution.colorLabel }} Lv.{{ evolution.levelLabel }}</span>
+              </span>
+              起 {{ config.mergeEvolutionCost }}
+            </span>
+          </span>
+          将指定的 {{ config.mergeEvolutionSize }} 只数码宝贝重叠，以活跃状态进化
+        </div>
+
         <!-- 效果 -->
         <div class="card-description">
           <description :details="config.description" />
@@ -477,17 +544,66 @@ const exportConfig = () => {
       width: 660px;
     }
 
+    .card-special-evolution {
+      display: inline-block;
+      padding: 2px 6px;
+      margin-bottom: 10px;
+      background-color: #000000;
+      border: solid 2px #ffffff;
+      border-radius: 10px;
+      font-size: 18px;
+      line-height: 20px;
+      color: #ffffff;
+    }
+
+    .card-merge-evolution {
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #ffffff;
+      text-shadow: -1px 1px 3px #000000, 1px 1px 3px #000000, 1px -1px 3px #000000,
+        -1px -1px 3px #000000;
+      transform: skew(-20deg);
+
+      &-tag {
+        position: relative;
+        display: inline-block;
+        height: 22px;
+        vertical-align: top;
+
+        &-bj {
+          position: absolute;
+          top: 0;
+          left: 0;
+          display: inline-block;
+          width: 100%;
+          height: 22px;
+        }
+
+        &-content {
+          position: absolute;
+          top: 2px;
+          bottom: 2px;
+          left: 2px;
+          right: 2px;
+          // padding: 0 6px;
+          background-color: #333333;
+          font-size: 18px;
+          line-height: 20px;
+          text-align: center;
+        }
+      }
+    }
+
     .card-description {
       width: 660px;
       padding: 4px;
+      margin-bottom: 10px;
     }
 
     .card-info {
       position: relative;
       width: 660px;
       height: 76px;
-      margin-top: 10px;
-      // margin-bottom: 30px;
       border-radius: 10px;
 
       &-bg {

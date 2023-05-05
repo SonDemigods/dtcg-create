@@ -10,83 +10,75 @@ const details = toRef(props, 'details')
 const detailsArr = ref()
 
 // 监听数据变化
-watch(
-  details,
-  (newValue, oldValue) => {
+watch(details, (newValue, oldValue) => {
+  // 分割行
+  const newValueRow = newValue ? newValue.split(/\n/g) : []
 
-    // 分割行
-    const newValueRow = newValue ? newValue.split(/\n/g) : []
+  // 分割关键词
+  const newValueReplace: Array<any> = []
+  newValueRow.map((item: string, index: number) => {
+    let temp = item.replace(/【/g, '@@【')
+    temp = temp.replace(/】/g, '@@')
+    temp = temp.replace(/≪/g, '@@≪')
+    temp = temp.replace(/≫/g, '@@')
+    temp = temp.replace(/［/g, '@@［')
+    temp = temp.replace(/］/g, '@@')
+    newValueRow[index] = temp
+    newValueReplace[index] = temp.split('@@')
+  })
+  // 结果数组
+  const res: Array<any> = []
+  newValueReplace.map((row: Array<string>, rowIndex: number) => {
+    res[rowIndex] = []
 
-    // 分割关键词
-    const newValueReplace: Array<any> = []
-    newValueRow.map((item: string, index: number) => {
-      let temp = item.replace(/【/g,'@@【')
-      temp = temp.replace(/】/g,'@@')
-      temp = temp.replace(/≪/g,'@@≪')
-      temp = temp.replace(/≫/g,'@@')
-      temp = temp.replace(/［/g,'@@［')
-      temp = temp.replace(/］/g,'@@')
-      newValueRow[index] = temp
-      newValueReplace[index] = temp.split('@@')
-    })
-    // 结果数组
-    const res:Array<any> = []
-    newValueReplace.map((row: Array<string>, rowIndex: number) => {
+    row.map((col: string, colIndex: number) => {
+      const first = col.substring(0, 1)
 
-      res[rowIndex] = []
-
-      row.map((col: string, colIndex: number) => {
-
-        const first = col.substring(0,1)
-
-        let temp = {}
-        if (first === '【') {
-          temp = {
-            type: 1,
-            content: col.substring(1)
-          }
-        } else if (first === '≪') {
-          temp = {
-            type: 2,
-            content: col.substring(1)
-          }
-        } else if (first === '［') {
-          temp = {
-            type: 3,
-            content: col.substring(1)
-          }
-        } else {
-          temp = {
-            type: 0,
-            content: col
-          }
+      let temp = {}
+      if (first === '【') {
+        temp = {
+          type: 1,
+          content: col.substring(1)
         }
+      } else if (first === '≪') {
+        temp = {
+          type: 2,
+          content: col.substring(1)
+        }
+      } else if (first === '［') {
+        temp = {
+          type: 3,
+          content: col.substring(1)
+        }
+      } else {
+        temp = {
+          type: 0,
+          content: col
+        }
+      }
 
-        res[rowIndex][colIndex] = temp
-      })
-
+      res[rowIndex][colIndex] = temp
     })
-    
-    detailsArr.value = res
-  }
-)
+  })
 
+  detailsArr.value = res
+})
 </script>
 <template>
   <div class="description">
     <div class="description-row" v-for="(row, rowIndex) in detailsArr" :key="rowIndex">
       <template v-for="(col, colIndex) in row" :key="colIndex">
         <template v-if="col.type === 1">
-          <b class="type1">{{col.content}}</b>
+          <b class="type1">{{ col.content }}</b>
         </template>
         <template v-if="col.type === 2">
-          <b class="type2">{{col.content}}</b>
+          <b class="type2">{{ col.content }}</b>
         </template>
         <template v-if="col.type === 3">
-          <b class="type3">{{col.content}}</b>
+          <b class="type3">{{ col.content }}</b>
         </template>
         <template v-if="col.type === 0">
-          {{col.content}}
+          {{ col.content }}
         </template>
       </template>
     </div>
@@ -99,12 +91,14 @@ watch(
   line-height: 30px;
   color: #ffffff;
   text-shadow: -1px 1px 3px #000000, 1px 1px 3px #000000, 1px -1px 3px #000000,
-          -1px -1px 3px #000000;
+    -1px -1px 3px #000000;
 
   &-row {
     margin-bottom: 6px;
 
-    .type1, .type2, .type3 {
+    .type1,
+    .type2,
+    .type3 {
       display: inline-block;
       padding: 2px 6px;
       margin-right: 10px;
@@ -121,9 +115,9 @@ watch(
 
     .type1 {
       border-radius: 4px;
-      background-image: -moz-linear-gradient( 90deg, rgb(29,85,176) 0%, rgb(15,18,23) 100%);
-      background-image: -webkit-linear-gradient( 90deg, rgb(29,85,176) 0%, rgb(15,18,23) 100%);
-      background-image: -ms-linear-gradient( 90deg, rgb(29,85,176) 0%, rgb(15,18,23) 100%);
+      background-image: -moz-linear-gradient(90deg, rgb(29, 85, 176) 0%, rgb(15, 18, 23) 100%);
+      background-image: -webkit-linear-gradient(90deg, rgb(29, 85, 176) 0%, rgb(15, 18, 23) 100%);
+      background-image: -ms-linear-gradient(90deg, rgb(29, 85, 176) 0%, rgb(15, 18, 23) 100%);
     }
 
     .type2 {
@@ -132,9 +126,9 @@ watch(
       margin-left: 20px;
       margin-right: 20px;
       border-width: 2px 0;
-      background-image: -moz-linear-gradient( 90deg, rgb(209,122,60) 0%, rgb(129,29,16) 100%);
-      background-image: -webkit-linear-gradient( 90deg, rgb(209,122,60) 0%, rgb(129,29,16) 100%);
-      background-image: -ms-linear-gradient( 90deg, rgb(209,122,60) 0%, rgb(129,29,16) 100%);
+      background-image: -moz-linear-gradient(90deg, rgb(209, 122, 60) 0%, rgb(129, 29, 16) 100%);
+      background-image: -webkit-linear-gradient(90deg, rgb(209, 122, 60) 0%, rgb(129, 29, 16) 100%);
+      background-image: -ms-linear-gradient(90deg, rgb(209, 122, 60) 0%, rgb(129, 29, 16) 100%);
 
       &::before {
         content: '';
@@ -163,9 +157,9 @@ watch(
 
     .type3 {
       border-radius: 20px;
-      background-image: -moz-linear-gradient( 90deg, rgb(191,80,138) 0%, rgb(70,7,22) 100%);
-      background-image: -webkit-linear-gradient( 90deg, rgb(191,80,138) 0%, rgb(70,7,22) 100%);
-      background-image: -ms-linear-gradient( 90deg, rgb(191,80,138) 0%, rgb(70,7,22) 100%);
+      background-image: -moz-linear-gradient(90deg, rgb(191, 80, 138) 0%, rgb(70, 7, 22) 100%);
+      background-image: -webkit-linear-gradient(90deg, rgb(191, 80, 138) 0%, rgb(70, 7, 22) 100%);
+      background-image: -ms-linear-gradient(90deg, rgb(191, 80, 138) 0%, rgb(70, 7, 22) 100%);
     }
   }
 }

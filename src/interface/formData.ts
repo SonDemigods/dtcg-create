@@ -7,7 +7,7 @@ export interface evolutionInfoInterface {
   colorFourth?: string,
   level: number,
   levelLabel?: string,
-  cost: number
+  cost?: number
 }
 
 export interface formDataInterface {
@@ -69,7 +69,17 @@ export interface formDataInterface {
   // 进化信息
   evolutionInfo: Array<evolutionInfoInterface>,
 
-  // 技能描述
+  // 特殊进化
+  specialEvolution: string,
+  // 是否展示合步进化
+  mergeEvolutionShow: boolean,
+  // 合步进化数量
+  mergeEvolutionSize: number,
+  // 合步进化颜色
+  mergeEvolutionInfo: Array<evolutionInfoInterface>,
+  // 合步进化费用
+  mergeEvolutionCost: number,
+  // 效果
   description: string,
   // 进化源效果显示
   originShow: boolean,

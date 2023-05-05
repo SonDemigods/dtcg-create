@@ -82,12 +82,39 @@ const formData: Ref<formDataInterface> = ref({
   evolutionInfo: [
     {
       color: 1,
+      colorLabel: '红',
       level: 2,
+      levelLabel: 'lv.2',
       cost: 0
     }
   ],
 
-  // 技能描述
+  // 特殊进化
+  specialEvolution: '',
+  // 是否展示合步进化
+  mergeEvolutionShow: false,
+  // 合步进化数量
+  mergeEvolutionSize: 2,
+  // 合步进化颜色
+  mergeEvolutionInfo: [
+    {
+      color: 1,
+      colorLabel: '红',
+      level: 2,
+      levelLabel: 'lv.2',
+      cost: 0
+    },
+    {
+      color: 1,
+      colorLabel: '红',
+      level: 2,
+      levelLabel: 'lv.2',
+      cost: 0
+    }
+  ],
+  // 合步进化费用
+  mergeEvolutionCost: 0,
+  // 效果
   description: '',
   // 进化源效果显示
   originShow: false,
@@ -250,12 +277,44 @@ const changeEvolutionSize = (value: number) => {
     for (let index = res.length; index < value; index++) {
       res.push({
         color: 1,
+        colorLabel: '红',
         level: 2,
+        levelLabel: 'lv.2',
         cost: 0
       })
     }
   }
   formData.value.evolutionInfo = res
+}
+
+/**
+ * @functionName changeMergeEvolutionSize
+ * @param {Number} value 合步进化信息数量
+ * @description 合步进化信息数量变更时，更新合步进化信息详情
+ * @author 张航
+ * @date 2023-05-05 14:31:48
+ * @version V1.0.0
+ */
+ const changeMergeEvolutionSize = (value: number) => {
+  // 结果数组
+  let res: Array<evolutionInfoInterface> = []
+  const { mergeEvolutionInfo = [] } = formData.value
+
+  if (value < mergeEvolutionInfo.length) {
+    res = mergeEvolutionInfo.slice(0, value)
+  } else {
+    res = [...mergeEvolutionInfo]
+    for (let index = res.length; index < value; index++) {
+      res.push({
+        color: 1,
+        colorLabel: '红',
+        level: 2,
+        levelLabel: 'lv.2',
+        cost: 0
+      })
+    }
+  }
+  formData.value.mergeEvolutionInfo = res
 }
 
 /**
@@ -378,6 +437,23 @@ watch(
 
     // 更新进化信息
     res.evolutionInfo.map((item) => {
+      const {
+        label = '',
+        first = '',
+        second = '',
+        third = '',
+        fourth = ''
+      } = updateColorLabelValue(item.color, colorData)
+      item.colorLabel = label
+      item.colorFirst = first
+      item.colorSecond = second
+      item.colorThird = third
+      item.colorFourth = fourth
+      item.levelLabel = updateFormLabel(item.level, levelData)
+    })
+
+    // 更新合步进化信息
+    res.mergeEvolutionInfo.map((item) => {
       const {
         label = '',
         first = '',
@@ -606,6 +682,69 @@ watch(
       </FormItem>
       <FormItem label="类型">
         <Input v-model="formData.type" :maxlength="20" />
+      </FormItem>
+
+      <Divider orientation="left">特殊进化</Divider>
+      <FormItem label="特殊进化">
+        <Input
+          v-model="formData.specialEvolution"
+          type="textarea"
+          :rows="6"
+          :maxlength="400"
+          show-word-limit
+        />
+      </FormItem>
+
+      <Divider orientation="left">合步进化</Divider>
+      <FormItem label="是否展示合步进化">
+        <Switch v-model="formData.mergeEvolutionShow" />
+      </FormItem>
+      <FormItem label="合步进化数量">
+        <InputNumber
+          v-model="formData.mergeEvolutionSize"
+          controls-outside
+          :min="2"
+          :max="4"
+          style="width: 100%"
+          @on-change="changeMergeEvolutionSize"
+        />
+      </FormItem>
+      <FormItem label="合步进化颜色">
+        <div class="evolutionInfo">
+          <Row class="title-box">
+            <Col span="12">
+              <div class="item">颜色</div>
+            </Col>
+            <Col span="12">
+              <div class="item">等级</div>
+            </Col>
+          </Row>
+          <Row v-for="(evolution, index) in formData.mergeEvolutionInfo" :key="index" class="data-box">
+            <Col span="12">
+              <Select v-model="evolution.color" style="width: 100%">
+                <Option v-for="item in colorData" :value="item.code" :key="item.code">{{
+                  item.name
+                }}</Option>
+              </Select>
+            </Col>
+            <Col span="12">
+              <Select v-model="evolution.level" style="width: 100%">
+                <Option v-for="item in levelData" :value="item.code" :key="item.code">
+                  LV.{{ item.name }}
+                </Option>
+              </Select>
+            </Col>
+          </Row>
+        </div>
+      </FormItem>
+      <FormItem label="合步进化费用">
+        <InputNumber
+          v-model="formData.mergeEvolutionCost"
+          controls-outside
+          :min="0"
+          :max="20"
+          style="width: 100%"
+        />
       </FormItem>
 
       <Divider orientation="left">效果</Divider>
