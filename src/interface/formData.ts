@@ -37,6 +37,8 @@ export interface formDataInterface {
   rarity: number,
   rarityLabel?: string,
 
+  // 是否展示特征
+  characteristicShow: boolean,
   // 形态
   shape: number,
   shapeLabel?: string,

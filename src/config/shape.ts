@@ -1,6 +1,6 @@
 export default [{
   code: 0,
-  name: '-'
+  name: '无'
 },
 {
   code: 1,
@@ -29,4 +29,8 @@ export default [{
 {
   code: 7,
   name: '装甲体'
+},
+{
+  code: 8,
+  name: '-'
 }]
