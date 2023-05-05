@@ -17,4 +17,8 @@ export default [{
 {
   code: 5,
   name: 'SEC'
+},
+{
+  code: 6,
+  name: 'P'
 }]
