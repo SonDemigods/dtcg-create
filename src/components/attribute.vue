@@ -704,7 +704,7 @@ watch(
           v-model="formData.mergeEvolutionSize"
           controls-outside
           :min="2"
-          :max="4"
+          :max="6"
           style="width: 100%"
           @on-change="changeMergeEvolutionSize"
         />
