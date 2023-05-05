@@ -181,8 +181,6 @@ watch(
       vertical-align: top;
       text-shadow: none;
     }
-
-
   }
 }
 </style>

@@ -138,7 +138,7 @@ const exportConfig = () => {
             <div
               :class="{
                 name: true,
-                'name-no-level': (config.cardType === 3 || config.cardType) === 4
+                'name-no-level': (config.cardType === 3 || config.cardType === 4)
               }"
               :style="{
                 color: config.nameSecond,
