@@ -330,19 +330,19 @@ const exportConfig = () => {
       left: 50%;
       width: 100px;
       margin-left: -50px;
-      padding: 20px 0;
+      padding: 14px 0;
       font-family: 'Regular';
       text-align: center;
       color: #000000;
-      font-size: 20px;
+      font-size: 22px;
       text-shadow: -1px 1px 0px #ffffff, 1px 1px 0px #ffffff, 1px -1px 0px #ffffff,
           -1px -1px 0px #ffffff;
     }
 
     .cost {
       position: absolute;
-      top: 20px;
-      left: 20px;
+      top: 14px;
+      left: 16px;
       width: 130px;
       height: 130px;
       padding-left: 26px;
@@ -360,8 +360,8 @@ const exportConfig = () => {
 
     .dp {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 16px;
+      right: 30px;
 
       &-main,
       &-sub {
@@ -404,21 +404,21 @@ const exportConfig = () => {
 
     .evolutionInfo {
       position: absolute;
-      top: 180px;
-      left: 20px;
+      top: 164px;
+      left: 26px;
 
       &-item {
         position: relative;
-        width: 86px;
-        height: 86px;
-        margin-left: 16px;
-        margin-top: -4px;
+        width: 94px;
+        height: 94px;
+        margin-left: 20px;
+        margin-top: -16px;
         background-image: url('../assets/evolutionInfo_bg_2.png');
         background-size: cover;
 
         &:nth-child(1) {
-          width: 104px;
-          height: 104px;
+          width: 114px;
+          height: 114px;
           margin-left: 0;
           margin-top: 0;
           background-image: url('../assets/evolutionInfo_bg_1.png');
@@ -426,18 +426,18 @@ const exportConfig = () => {
 
         &-color {
           position: absolute;
-          bottom: 7px;
-          right: 7px;
-          width: 72px;
-          height: 72px;
+          bottom: 8px;
+          right: 8px;
+          width: 78px;
+          height: 78px;
           border-radius: 100%;
           opacity: 0.8;
         }
 
         &-level {
           position: absolute;
-          bottom: 54px;
-          right: 12px;
+          bottom: 60px;
+          right: 16px;
           padding: 0 4px;
           font-family: 'Microsoft YaHei';
           font-size: 18px;
@@ -447,10 +447,10 @@ const exportConfig = () => {
 
         &-cost {
           position: absolute;
-          bottom: -4px;
+          bottom: -6px;
           right: 0;
-          width: 86px;
-          height: 86px;
+          width: 94px;
+          height: 94px;
           font-family: 'coolvetica';
           font-size: 60px;
           color: #ffffff;
