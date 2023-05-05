@@ -43,7 +43,7 @@ const exportCard = () => {
  */
 const exportConfig = () => {
   const data = JSON.stringify(config.value)
-  const blob = new Blob([data], {type: 'application/json'})
+  const blob = new Blob([data], { type: 'application/json' })
   const URL = window.URL || window.webkitURL
   const blobUrl = URL.createObjectURL(blob)
 
@@ -52,7 +52,6 @@ const exportConfig = () => {
   btn.setAttribute('download', `${config.value.number}-${config.value.name}`)
   btn.click()
 }
-
 </script>
 <template>
   <div class="title">
@@ -138,7 +137,8 @@ const exportConfig = () => {
             <div
               :class="{
                 name: true,
-                'name-no-level': (config.cardType === 3 || config.cardType === 4)
+                'name-no-level':
+                  !config.characteristicShow && (config.cardType === 3 || config.cardType === 4)
               }"
               :style="{
                 color: config.nameSecond,
@@ -177,21 +177,31 @@ const exportConfig = () => {
             </div>
           </div>
 
-          <div
-            v-if="config.cardType === 1 || config.cardType === 2"
-            :class="{
-              'card-info-level': true,
-              'card-info-level-white': config.colors[0] === 5
-            }"
-          >
-            <div class="level" :style="{ color: config.nameThird }">
+          <div class="card-info-level">
+            <div
+              v-if="config.characteristicShow"
+              :class="{
+                info: true,
+                'info-white': config.colors[0] === 5
+              }"
+              :style="{ color: config.nameThird }"
+            >
+              <span v-if="config.shape">{{ config.shapeLabel }}</span>
+              <span v-if="config.shape && config.property"> | </span>
+              <span v-if="config.property">{{ config.propertyLabel }}</span>
+              <span v-if="(config.shape || config.property) && config.type.length > 0"> | </span>
+              <span v-if="config.type.length > 0">{{ config.type }}</span>
+            </div>
+            <div
+              v-if="config.cardType === 1 || config.cardType === 2"
+              :class="{
+                level: true,
+                'level-white': config.colors[0] === 5
+              }"
+              :style="{ color: config.nameThird }"
+            >
               <span class="label">Lv.</span>
               <span class="value">{{ config.levelLabel }}</span>
-            </div>
-            <div class="info" :style="{ color: config.nameThird }">
-              <span>{{ config.shapeLabel }}</span>
-              <span v-if="config.property"> | {{ config.propertyLabel }}</span>
-              <span v-if="config.type"> | {{ config.type }}</span>
             </div>
           </div>
         </div>
@@ -336,7 +346,7 @@ const exportConfig = () => {
       color: #000000;
       font-size: 22px;
       text-shadow: -1px 1px 0px #ffffff, 1px 1px 0px #ffffff, 1px -1px 0px #ffffff,
-          -1px -1px 0px #ffffff;
+        -1px -1px 0px #ffffff;
     }
 
     .cost {
@@ -561,21 +571,22 @@ const exportConfig = () => {
         left: 0;
         width: 100%;
         height: 70px;
-        background-image: url('../assets/level_bg_1.png');
-        background-size: cover;
-
-        &-white {
-          background-image: url('../assets/level_bg_2.png');
-        }
 
         .level {
           position: absolute;
           bottom: 0;
-          left: 10px;
-          width: 100px;
+          left: 0;
+          width: 170px;
           height: 70px;
           line-height: 58px;
-          text-align: center;
+          // text-align: center;
+          padding: 0 14px;
+          background-image: url('../assets/level_bg_1.png');
+          background-size: cover;
+
+          &-white {
+            background-image: url('../assets/level_bg_2.png');
+          }
 
           .label {
             font-family: 'Microsoft YaHei';
@@ -593,10 +604,19 @@ const exportConfig = () => {
         .info {
           position: absolute;
           bottom: 0;
-          right: 10px;
+          width: 100%;
+          height: 20px;
+          padding: 0 10px;
+          border-radius: 0 0 10px 10px;
           font-family: 'Microsoft YaHei';
           font-size: 14px;
           line-height: 20px;
+          text-align: right;
+          background-color: #000000;
+
+          &-white {
+            background-color: #ffffff;
+          }
         }
       }
     }

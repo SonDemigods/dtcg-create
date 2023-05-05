@@ -41,6 +41,8 @@ const configData: Ref<formDataInterface> = ref({
   // 罕贵
   rarity: 1,
 
+  // 是否展示特征
+  characteristicShow: true,
   // 形态
   shape: 1,
   // 属性

@@ -52,6 +52,8 @@ const formData: Ref<formDataInterface> = ref({
   // 罕贵
   rarity: 1,
 
+  // 是否展示特征
+  characteristicShow: true,
   // 形态
   shape: 1,
   // 属性
@@ -585,6 +587,9 @@ watch(
       </FormItem>
 
       <Divider orientation="left">特征</Divider>
+      <FormItem label="是否展示特征">
+        <Switch v-model="formData.characteristicShow" />
+      </FormItem>
       <FormItem label="形态">
         <Select v-model="formData.shape" style="width: 100%">
           <Option v-for="item in shapeData" :value="item.code" :key="item.code">{{
