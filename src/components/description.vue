@@ -104,17 +104,14 @@ watch(
   &-row {
     margin-bottom: 6px;
 
-    .type1 {
+    .type1, .type2, .type3 {
       display: inline-block;
       padding: 2px 6px;
       margin-right: 10px;
+      margin-top: 1px;
       border-style: solid;
       border-width: 2px;
       border-color: #000000;
-      border-radius: 4px;
-      background-image: -moz-linear-gradient( 90deg, rgb(29,85,176) 0%, rgb(15,18,23) 100%);
-      background-image: -webkit-linear-gradient( 90deg, rgb(29,85,176) 0%, rgb(15,18,23) 100%);
-      background-image: -ms-linear-gradient( 90deg, rgb(29,85,176) 0%, rgb(15,18,23) 100%);
       font-size: 18px;
       font-weight: 400;
       line-height: 20px;
@@ -122,22 +119,22 @@ watch(
       text-shadow: none;
     }
 
+    .type1 {
+      border-radius: 4px;
+      background-image: -moz-linear-gradient( 90deg, rgb(29,85,176) 0%, rgb(15,18,23) 100%);
+      background-image: -webkit-linear-gradient( 90deg, rgb(29,85,176) 0%, rgb(15,18,23) 100%);
+      background-image: -ms-linear-gradient( 90deg, rgb(29,85,176) 0%, rgb(15,18,23) 100%);
+    }
+
     .type2 {
       position: relative;
-      display: inline-block;
       padding: 2px;
-      margin: 0 20px;
-      border-style: solid;
+      margin-left: 20px;
+      margin-right: 20px;
       border-width: 2px 0;
-      border-color: #000000;
       background-image: -moz-linear-gradient( 90deg, rgb(209,122,60) 0%, rgb(129,29,16) 100%);
       background-image: -webkit-linear-gradient( 90deg, rgb(209,122,60) 0%, rgb(129,29,16) 100%);
       background-image: -ms-linear-gradient( 90deg, rgb(209,122,60) 0%, rgb(129,29,16) 100%);
-      font-size: 18px;
-      font-weight: 400;
-      line-height: 20px;
-      vertical-align: top;
-      text-shadow: none;
 
       &::before {
         content: '';
@@ -165,21 +162,10 @@ watch(
     }
 
     .type3 {
-      display: inline-block;
-      padding: 2px 6px;
-      margin-right: 10px;
-      border-style: solid;
-      border-width: 2px;
-      border-color: #000000;
       border-radius: 20px;
       background-image: -moz-linear-gradient( 90deg, rgb(191,80,138) 0%, rgb(70,7,22) 100%);
       background-image: -webkit-linear-gradient( 90deg, rgb(191,80,138) 0%, rgb(70,7,22) 100%);
       background-image: -ms-linear-gradient( 90deg, rgb(191,80,138) 0%, rgb(70,7,22) 100%);
-      font-size: 18px;
-      font-weight: 400;
-      line-height: 20px;
-      vertical-align: top;
-      text-shadow: none;
     }
   }
 }
