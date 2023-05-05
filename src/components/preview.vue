@@ -462,18 +462,19 @@ const exportConfig = () => {
 
     .card-bottom {
       position: absolute;
-      left: 37px;
+      left: 42px;
       bottom: 0;
-      width: 670px;
+      width: 660px;
     }
 
     .card-description {
-      width: 670px;
+      width: 660px;
+      padding: 4px;
     }
 
     .card-info {
       position: relative;
-      width: 670px;
+      width: 660px;
       height: 76px;
       margin-top: 10px;
       // margin-bottom: 30px;
@@ -602,7 +603,7 @@ const exportConfig = () => {
 
     .card-origin {
       position: relative;
-      width: 670px;
+      width: 660px;
       height: 140px;
       margin-top: 10px;
 
@@ -652,14 +653,14 @@ const exportConfig = () => {
         position: absolute;
         top: 10px;
         left: 140px;
-        width: 520px;
+        width: 510px;
         height: 120px;
       }
     }
 
     .card-security {
       position: relative;
-      width: 670px;
+      width: 660px;
       height: 140px;
       margin-top: 10px;
       margin-bottom: 30px;
