@@ -190,10 +190,10 @@ const calcBorderImage = () => {
         <!-- 数码合体 -->
         <div class="card-compose" v-if="config.composeShow">
           <div class="card-compose-info">
-            <span class="card-compose-info-tag">数码合体 -{{config.composeNum}}</span>
+            <span class="card-compose-info-tag">数码合体 - {{config.composeNum}}</span>
             <span class="card-compose-info-part">{{config.composePart}}</span>
           </div>
-          <div class="card-compose-illustrate">当将要登场时，可以从手牌 / 战斗区中置于此卡牌的下方。每放置1张减少登场费用。</div>
+          <!-- <div class="card-compose-illustrate">当将要登场时，可以从手牌 / 战斗区中置于此卡牌的下方。每放置1张减少登场费用。</div> -->
         </div>
 
         <!-- 信息 -->
@@ -560,7 +560,7 @@ const calcBorderImage = () => {
       background-color: #000000;
       border: solid 2px #ffffff;
       border-radius: 10px;
-      font-size: 18px;
+      font-size: 20px;
       line-height: 20px;
       color: #ffffff;
     }
@@ -610,19 +610,19 @@ const calcBorderImage = () => {
     }
 
     .card-compose {
-      width: 660px;
-      padding: 2px 8px;
+      display: inline-block;
+      padding: 2px 6px;
       margin-bottom: 10px;
       background-color: rgba(0, 0, 0, .5);
       border: solid 2px #ffffff;
       border-radius: 10px;
 
       &-info {
-        font-size: 22px;
+        font-size: 20px;
         color: #ffffff;
-        position: relative;
-        top: -4px;
-        line-height: 28px;
+        // position: relative;
+        // top: -4px;
+        line-height: 24px;
         
         &-tag {
           padding: 2px 6px;
