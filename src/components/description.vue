@@ -23,6 +23,10 @@ watch(details, (newValue, oldValue) => {
     temp = temp.replace(/≫/g, '@@')
     temp = temp.replace(/［/g, '@@［')
     temp = temp.replace(/］/g, '@@')
+    temp = temp.replace(/《/g, '@@《')
+    temp = temp.replace(/》/g, '@@')
+    temp = temp.replace(/〔/g, '@@〔')
+    temp = temp.replace(/〕/g, '@@')
     newValueRow[index] = temp
     newValueReplace[index] = temp.split('@@')
   })
@@ -40,12 +44,12 @@ watch(details, (newValue, oldValue) => {
           type: 1,
           content: col.substring(1)
         }
-      } else if (first === '≪') {
+      } else if (first === '≪' || first === '《') {
         temp = {
           type: 2,
           content: col.substring(1)
         }
-      } else if (first === '［') {
+      } else if (first === '［' || first === '〔') {
         temp = {
           type: 3,
           content: col.substring(1)
@@ -160,6 +164,10 @@ watch(details, (newValue, oldValue) => {
       background-image: -moz-linear-gradient(90deg, rgb(191, 80, 138) 0%, rgb(70, 7, 22) 100%);
       background-image: -webkit-linear-gradient(90deg, rgb(191, 80, 138) 0%, rgb(70, 7, 22) 100%);
       background-image: -ms-linear-gradient(90deg, rgb(191, 80, 138) 0%, rgb(70, 7, 22) 100%);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 }

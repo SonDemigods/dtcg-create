@@ -19,7 +19,7 @@ import cardTypeData from '@/config/cardType'
 import levelData from '@/config/level'
 // 导入罕贵
 import rarityData from '@/config/rarity'
-// 导入分类
+// 导入块标识
 import kindData from '@/config/kind'
 // 导入颜色
 import colorData from '@/config/color'
@@ -61,9 +61,9 @@ const formData: Ref<formDataInterface> = ref({
   // 类型
   type: '',
 
-  // 分类显示
+  // 块标识显示
   kindShow: true,
-  // 分类
+  // 块标识
   kind: 1,
 
   // 费用显示
@@ -116,6 +116,14 @@ const formData: Ref<formDataInterface> = ref({
   mergeEvolutionCost: 0,
   // 效果
   description: '',
+
+  // 是否显示数码合体
+  composeShow: false,
+  // 数码合体减少费用
+  composeNum: 0,
+  // 数码合体素材
+  composePart: '',
+
   // 进化源效果显示
   originShow: false,
   // 进化源图片
@@ -552,7 +560,7 @@ watch(
         </Select>
       </FormItem>
 
-      <Divider orientation="left">分类</Divider>
+      <Divider orientation="left">块标识</Divider>
       <Row>
         <Col span="6">
           <FormItem label="是否展示">
@@ -560,7 +568,7 @@ watch(
           </FormItem>
         </Col>
         <Col span="18">
-          <FormItem label="分类">
+          <FormItem label="块标识">
             <Select v-model="formData.kind" style="width: 100%">
               <Option v-for="item in kindData" :value="item.code" :key="item.code">{{
                 item.name
@@ -754,6 +762,35 @@ watch(
           type="textarea"
           :rows="8"
           :maxlength="600"
+          show-word-limit
+        />
+      </FormItem>
+
+      <Divider orientation="left">数码合体</Divider>
+      <Row>
+        <Col span="6">
+          <FormItem label="是否展示">
+            <Switch v-model="formData.composeShow" />
+          </FormItem>
+        </Col>
+        <Col span="18">
+          <FormItem label="减少费用">
+            <InputNumber
+              v-model="formData.composeNum"
+              controls-outside
+              :min="1"
+              :max="99"
+              style="width: 100%"
+            />
+          </FormItem>
+        </Col>
+      </Row>
+      <FormItem label="合体素材">
+        <Input
+          v-model="formData.composePart"
+          type="textarea"
+          :rows="4"
+          :maxlength="100"
           show-word-limit
         />
       </FormItem>

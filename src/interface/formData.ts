@@ -48,9 +48,9 @@ export interface formDataInterface {
   // 类型
   type: string,
 
-  // 分类显示
+  // 块标识显示
   kindShow: boolean,
-  // 分类
+  // 块标识
   kind: number,
   kindLabel?: string,
 
@@ -81,6 +81,12 @@ export interface formDataInterface {
   mergeEvolutionCost: number,
   // 效果
   description: string,
+  // 是否显示数码合体
+  composeShow: boolean,
+  // 数码合体减少费用
+  composeNum: number,
+  // 数码合体素材
+  composePart: string,
   // 进化源效果显示
   originShow: boolean,
   // 进化源图片

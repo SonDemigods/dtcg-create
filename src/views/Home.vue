@@ -50,9 +50,9 @@ const configData: Ref<formDataInterface> = ref({
   // 类型
   type: '',
 
-  // 分类显示
+  // 块标识显示
   kindShow: true,
-  // 分类
+  // 块标识
   kind: 1,
 
   // 费用显示
@@ -104,6 +104,14 @@ const configData: Ref<formDataInterface> = ref({
   mergeEvolutionCost: 0,
   // 效果
   description: '',
+ 
+  // 是否显示数码合体
+  composeShow: false,
+  // 数码合体减少费用
+  composeNum: 0,
+  // 数码合体素材
+  composePart: '',
+
   // 进化源效果显示
   originShow: false,
   // 进化源图片
