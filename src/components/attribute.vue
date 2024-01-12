@@ -421,6 +421,9 @@ watch(
     res.colorsFourth = []
     res.nameSecond = '#ffffff'
     res.nameThird = '#ffffff'
+
+    // 处理属性不存在的问题
+    res.colors = res.colors || []
     res.colors.map((item, index) => {
       const {
         label = '',
@@ -443,6 +446,8 @@ watch(
       }
     })
 
+    // 处理属性不存在的问题
+    res.evolutionInfo = res.evolutionInfo || []
     // 更新进化信息
     res.evolutionInfo.map((item) => {
       const {
@@ -460,6 +465,8 @@ watch(
       item.levelLabel = updateFormLabel(item.level, levelData)
     })
 
+    // 处理属性不存在的问题
+    res.mergeEvolutionInfo = res.mergeEvolutionInfo || []
     // 更新合步进化信息
     res.mergeEvolutionInfo.map((item) => {
       const {
