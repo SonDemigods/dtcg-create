@@ -8,7 +8,7 @@ export default defineConfig({
   build: {
     outDir: 'dtcg',
   },
-  base: '/dtcg/',
+  base: '/',
   plugins: [vue()],
   resolve: {
     alias: {
